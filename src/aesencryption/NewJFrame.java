@@ -543,9 +543,15 @@ public class NewJFrame extends javax.swing.JFrame {
         String decriptPathSave = inputFileDecryptPathSave.getText();
         // Input strings
         
-        String content = readFile(decriptPath);
-        System.out.println(content);
-    
+        String content = dataFile.getText();
+        
+        //Kiểm tra xem có ký tự xuống dòng ở cuối chuỗi ko -> nếu có thì xóa
+        if (content.endsWith("\n")) {
+            // Chuỗi chứa ký tự xuống dòng, cần xóa
+            content = content.substring(0, content.length() - 1);
+        }
+        
+        //Convert data trong file cần giải mã sang dạng byte
         byte[] cipherText = hexStringToByteArray(content);
         // Key (must be 16 bytes long)
         String key = inputDecryptPass.getText();
