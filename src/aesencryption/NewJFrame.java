@@ -528,7 +528,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 && validator(key, "Vui lòng nhập key mã hóa!!")) {
             // Encrypt the first string
             long startTime = System.nanoTime();
-            byte[] cipherText = AES.Encrypt(plainText, key);
+            byte[] cipherText = AES.encrypt(plainText, key);
             long endTime = System.nanoTime();
             double timeHandle = (endTime - startTime) / 1e9; // Chuyển đổi sang giây
             dataFile.setText(plainText);
@@ -546,15 +546,15 @@ public class NewJFrame extends javax.swing.JFrame {
         String decriptPath = inputFileDecryptPath.getText();
         String decriptPathSave = inputFileDecryptPathSave.getText();
         // Input strings
-
+        
         String content = dataFile.getText();
-
+        
         //Kiểm tra xem có ký tự xuống dòng ở cuối chuỗi ko -> nếu có thì xóa
         if (content.endsWith("\n")) {
             // Chuỗi chứa ký tự xuống dòng, cần xóa
             content = content.substring(0, content.length() - 1);
         }
-
+        
         //Convert data trong file cần giải mã sang dạng byte
         byte[] cipherText = hexStringToByteArray(content);
         // Key (must be 16 bytes long)
@@ -565,7 +565,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 && validator(key, "Vui lòng nhập key giải mã!!")) {
             // Encrypt the first string
             long startTime = System.nanoTime();
-            String decryptedText = AES.Decrypt(cipherText, key);
+            String decryptedText = AES.decrypt(cipherText, key);
             long endTime = System.nanoTime();
             double timeHandle = (endTime - startTime) / 1e9; // Chuyển đổi sang giây
             dataFile.setText(content);
