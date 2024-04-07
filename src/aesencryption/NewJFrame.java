@@ -47,7 +47,6 @@ public class NewJFrame extends javax.swing.JFrame {
             reader.close();
             System.out.println("Đã đọc nội dung vào tệp thành công.");
             // Hiển thị nội dung trong TextBox hoặc TextArea
-            // Ví dụ: textBoxInput.setText(content.toString());
         } catch (IOException e) {
             System.err.println("Đã xảy ra lỗi khi đọc tệp: " + e.getMessage());
         }
