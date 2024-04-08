@@ -28,40 +28,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
     }
 
-    private boolean validator(String input, String message) {
-        if (!input.equals("")) {
-            return true;
-        } else {
-            JOptionPane.showMessageDialog(null, message);
-            return false;
-        }
-    }
-
-    private String readFile(String filePath) {
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-            reader.close();
-            System.out.println("Đã đọc nội dung vào tệp thành công.");
-            // Hiển thị nội dung trong TextBox hoặc TextArea
-        } catch (IOException e) {
-            System.err.println("Đã xảy ra lỗi khi đọc tệp: " + e.getMessage());
-        }
-        return content.toString();
-    }
-
-    private void writeFile(String content, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(content);
-            System.out.println("Đã ghi nội dung vào tệp thành công.");
-        } catch (IOException e) {
-            System.err.println("Đã xảy ra lỗi khi ghi vào tệp: " + e.getMessage());
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -146,11 +112,6 @@ public class NewJFrame extends javax.swing.JFrame {
         });
 
         timeEncrypt.setEditable(false);
-        timeEncrypt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timeEncryptActionPerformed(evt);
-            }
-        });
 
         encryptBtn.setText("Mã hóa");
         encryptBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -524,7 +485,8 @@ public class NewJFrame extends javax.swing.JFrame {
 
         if (validator(encryptPath, "Vui lòng chọn file cần được mã hóa!!")
                 && validator(encryptPathSave, "Vui lòng chọn đường dẫn file lưu dữ liệu mã hóa!!")
-                && validator(key, "Vui lòng nhập key mã hóa!!")) {
+                && validator(key, "Vui lòng nhập key mã hóa!!")
+                && validatorInputLength(key, 16, "Vui lòng nhập đủ 16 ký tự!")) {
             // Encrypt the first string
             long startTime = System.nanoTime();
             byte[] cipherText = AES.encrypt(plainText, key);
@@ -545,15 +507,15 @@ public class NewJFrame extends javax.swing.JFrame {
         String decriptPath = inputFileDecryptPath.getText();
         String decriptPathSave = inputFileDecryptPathSave.getText();
         // Input strings
-        
+
         String content = dataFile.getText();
-        
+
         //Kiểm tra xem có ký tự xuống dòng ở cuối chuỗi ko -> nếu có thì xóa
         if (content.endsWith("\n")) {
             // Chuỗi chứa ký tự xuống dòng, cần xóa
             content = content.substring(0, content.length() - 1);
         }
-        
+
         //Convert data trong file cần giải mã sang dạng byte
         byte[] cipherText = hexStringToByteArray(content);
         // Key (must be 16 bytes long)
@@ -561,7 +523,8 @@ public class NewJFrame extends javax.swing.JFrame {
 
         if (validator(decriptPath, "Vui lòng chọn file cần được giải mã!!")
                 && validator(decriptPathSave, "Vui lòng chọn đường dẫn file lưu dữ liệu được giải mã!!")
-                && validator(key, "Vui lòng nhập key giải mã!!")) {
+                && validator(key, "Vui lòng nhập key giải mã!!")
+                && validatorInputLength(key, 16, "Vui lòng nhập đủ 16 ký tự!")) {
             // Encrypt the first string
             long startTime = System.nanoTime();
             String decryptedText = AES.decrypt(cipherText, key);
@@ -576,9 +539,50 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_decryptBtnActionPerformed
 
-    private void timeEncryptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeEncryptActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_timeEncryptActionPerformed
+    private boolean validator(String input, String message) {
+        if (!input.equals("")) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, message);
+            return false;
+        }
+    }
+
+    private boolean validatorInputLength(String input, int length, String message) {
+        if (input.length() == length) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, message);
+            return false;
+        }
+    }
+
+    private String readFile(String filePath) {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+            reader.close();
+            System.out.println("Đã đọc nội dung vào tệp thành công.");
+            // Hiển thị nội dung trong TextBox hoặc TextArea
+            return content.toString();
+
+        } catch (IOException e) {
+            System.err.println("Đã xảy ra lỗi khi đọc tệp: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private void writeFile(String content, String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(content);
+            System.out.println("Đã ghi nội dung vào tệp thành công.");
+        } catch (IOException e) {
+            System.err.println("Đã xảy ra lỗi khi ghi vào tệp: " + e.getMessage());
+        }
+    }
 
     // Utility method to convert byte array to hex string
     private static String byteArrayToHexString(byte[] array) {
