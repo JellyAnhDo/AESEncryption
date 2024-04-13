@@ -23,7 +23,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private static int keyRound = 10;
     private static int keyLength = 16;
 
-
     /**
      * Creates new form NewJFrame
      */
@@ -160,10 +159,10 @@ public class NewJFrame extends javax.swing.JFrame {
                             .addComponent(inputEncryptPass, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(keySizeOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(encryptBtn)
-                            .addComponent(randomKeyBtn))))
+                            .addComponent(randomKeyBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(keySizeOption, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -524,7 +523,7 @@ public class NewJFrame extends javax.swing.JFrame {
         if (validator(encryptPath, "Vui lòng chọn file cần được mã hóa!!")
                 && validator(encryptPathSave, "Vui lòng chọn đường dẫn file lưu dữ liệu mã hóa!!")
                 && validator(key, "Vui lòng nhập key mã hóa!!")
-                && validatorInputLength(key, keyLength, "Vui lòng nhập đủ ký tự!!")) {
+                && validatorInputLength(key, keyLength, "Vui lòng nhập đủ số lượng ký tự!!")) {
             // Encrypt the first string
             long startTime = System.nanoTime();
             byte[] cipherText = AES.Encrypt(plainText, key, keyRound);
@@ -556,14 +555,14 @@ public class NewJFrame extends javax.swing.JFrame {
 
         //Convert data trong file cần giải mã sang dạng byte
         byte[] cipherText = hexStringToByteArray(content);
-        
+
         // Key
         String key = inputDecryptPass.getText();
 
         if (validator(decriptPath, "Vui lòng chọn file cần được giải mã!!")
                 && validator(decriptPathSave, "Vui lòng chọn đường dẫn file lưu dữ liệu được giải mã!!")
                 && validator(key, "Vui lòng nhập key giải mã!!")
-                && validatorInputLength(key, keyLength, "Vui lòng nhập đủ ký tự!!")) {
+                && validatorInputLength(key, keyLength, "Vui lòng nhập đủ số lượng ký tự!!")) {
             // Encrypt the first string
             long startTime = System.nanoTime();
             String decryptedText = AES.Decrypt(cipherText, key, keyRound);
@@ -584,16 +583,19 @@ public class NewJFrame extends javax.swing.JFrame {
         switch (keySize) {
             case 128:
                 keyRound = 10;
+                keyLength = 16;
                 labelEncryptPassword.setText("Nhập mật khẩu để mã hóa (16 ký tự)");
                 labelDecryptPassword.setText("Cung cấp mật khẩu để giải mã (16 ký tự)");
                 break;
             case 192:
                 keyRound = 12;
+                keyLength = 24;
                 labelEncryptPassword.setText("Nhập mật khẩu để mã hóa (24 ký tự)");
                 labelDecryptPassword.setText("Cung cấp mật khẩu để giải mã (24 ký tự)");
                 break;
             case 256:
                 keyRound = 14;
+                keyLength = 32;
                 labelEncryptPassword.setText("Nhập mật khẩu để mã hóa (32 ký tự)");
                 labelDecryptPassword.setText("Cung cấp mật khẩu để giải mã (32 ký tự)");
                 break;
