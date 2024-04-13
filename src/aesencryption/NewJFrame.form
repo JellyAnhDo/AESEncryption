@@ -43,7 +43,7 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="ff" red="99" type="rgb"/>
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
 
@@ -105,7 +105,7 @@
                       <Component id="clearBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="exitBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="32" max="32767" attributes="0"/>
+                  <EmptySpace pref="26" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -143,13 +143,16 @@
                               <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel3" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
+                          <Component id="labelEncryptPassword" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
                           <Component id="timeEncrypt" alignment="0" min="-2" pref="295" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="inputEncryptPass" min="-2" pref="295" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="inputEncryptPass" alignment="0" min="-2" pref="295" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="keySizeOption" min="-2" max="-2" attributes="0"/>
                                   <Component id="encryptBtn" min="-2" max="-2" attributes="0"/>
                                   <Component id="randomKeyBtn" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -180,14 +183,17 @@
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelEncryptPassword" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="randomKeyBtn" min="-2" max="-2" attributes="0"/>
                           <Component id="inputEncryptPass" min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="keySizeOption" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="timeEncrypt" min="-2" pref="29" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -199,6 +205,9 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JTextField" name="inputFileEncryptPath">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
@@ -215,7 +224,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="inputEncryptPass">
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel2">
+            <Component class="javax.swing.JLabel" name="labelEncryptPassword">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nh&#x1ead;p m&#x1ead;t kh&#x1ea9;u &#x111;&#x1ec3; m&#xe3; h&#xf3;a (16 k&#xfd; t&#x1ef1;)"/>
               </Properties>
@@ -229,6 +238,9 @@
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="inputFileEncryptPathSave">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
@@ -260,6 +272,23 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="encryptBtnActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="keySizeOption">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="3">
+                    <StringItem index="0" value="128"/>
+                    <StringItem index="1" value="192"/>
+                    <StringItem index="2" value="256"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="keySizeOptionActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -343,7 +372,7 @@
                           <Component id="jLabel13" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
                           <Component id="jLabel14" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
                           <Component id="inputDecryptPass" alignment="0" min="-2" pref="295" max="-2" attributes="0"/>
-                          <Component id="jLabel12" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
+                          <Component id="labelDecryptPassword" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
                           <Component id="timeDecrypt" alignment="0" min="-2" pref="295" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -376,7 +405,7 @@
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelDecryptPassword" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Component id="inputDecryptPass" min="-2" pref="29" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -392,6 +421,9 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JTextField" name="inputFileDecryptPath">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">
               <Properties>
@@ -408,12 +440,15 @@
             </Component>
             <Component class="javax.swing.JTextField" name="inputDecryptPass">
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel12">
+            <Component class="javax.swing.JLabel" name="labelDecryptPassword">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cung c&#x1ea5;p m&#x1ead;t kh&#x1ea9;u &#x111;&#x1ec3; gi&#x1ea3;i m&#xe3; (16 k&#xfd; t&#x1ef1;)"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="inputFileDecryptPathSave">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel13">
               <Properties>

@@ -20,6 +20,10 @@ import javax.swing.JOptionPane;
  */
 public class NewJFrame extends javax.swing.JFrame {
 
+    private static int keyRound = 10;
+    private static int keyLength = 16;
+
+
     /**
      * Creates new form NewJFrame
      */
@@ -43,7 +47,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         inputEncryptPass = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        labelEncryptPassword = new javax.swing.JLabel();
         randomKeyBtn = new javax.swing.JButton();
         inputFileEncryptPathSave = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -51,6 +55,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         timeEncrypt = new javax.swing.JTextField();
         encryptBtn = new javax.swing.JButton();
+        keySizeOption = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         resultText = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -62,7 +67,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         inputDecryptPass = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
+        labelDecryptPassword = new javax.swing.JLabel();
         inputFileDecryptPathSave = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -77,10 +82,12 @@ public class NewJFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setLocation(new java.awt.Point(0, 0));
 
-        jPanel1.setBackground(new java.awt.Color(153, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mã hóa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+
+        inputFileEncryptPath.setEditable(false);
 
         jLabel1.setText("Đường dẫn file cần mã hóa");
 
@@ -91,7 +98,7 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Nhập mật khẩu để mã hóa (16 ký tự)");
+        labelEncryptPassword.setText("Nhập mật khẩu để mã hóa (16 ký tự)");
 
         randomKeyBtn.setText("Random");
         randomKeyBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +106,8 @@ public class NewJFrame extends javax.swing.JFrame {
                 randomKeyBtnActionPerformed(evt);
             }
         });
+
+        inputFileEncryptPathSave.setEditable(false);
 
         jLabel3.setText("Đường dẫn file lưu dữ liệu mã hóa");
 
@@ -120,6 +129,13 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        keySizeOption.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "128", "192", "256" }));
+        keySizeOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                keySizeOptionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -137,13 +153,15 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton2))
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelEncryptPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(timeEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(inputEncryptPass, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputEncryptPass, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(keySizeOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(encryptBtn)
                             .addComponent(randomKeyBtn))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -166,13 +184,15 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addGap(1, 1, 1)
                         .addComponent(inputFileEncryptPathSave, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(labelEncryptPassword)
                 .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(randomKeyBtn)
                     .addComponent(inputEncryptPass, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(keySizeOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(timeEncrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -197,6 +217,8 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Giải mã", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
+        inputFileDecryptPath.setEditable(false);
+
         jLabel11.setText("Đường dẫn đến file cần giải mã");
 
         jButton3.setText("Mở");
@@ -206,7 +228,9 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setText("Cung cấp mật khẩu để giải mã (16 ký tự)");
+        labelDecryptPassword.setText("Cung cấp mật khẩu để giải mã (16 ký tự)");
+
+        inputFileDecryptPathSave.setEditable(false);
 
         jLabel13.setText("Đường dẫn file lưu dữ liệu đã giải mã");
 
@@ -248,7 +272,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inputDecryptPass, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelDecryptPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(timeDecrypt, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
@@ -274,7 +298,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addGap(1, 1, 1)
                         .addComponent(inputFileDecryptPathSave, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel12)
+                .addComponent(labelDecryptPassword)
                 .addGap(7, 7, 7)
                 .addComponent(inputDecryptPass, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -347,7 +371,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clearBtn)
                     .addComponent(exitBtn))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -462,9 +486,23 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         SecureRandom random = new SecureRandom();
         StringBuilder randomString = new StringBuilder();
-        int length = 16;
+        int length;
+        int keySize = Integer.parseInt((String) keySizeOption.getSelectedItem());
+        switch (keySize) {
+            case 128:
+                keyLength = 16;
+                break;
+            case 192:
+                keyLength = 24;
+                break;
+            case 256:
+                keyLength = 32;
+                break;
+            default:
+                throw new AssertionError();
+        }
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < keyLength; i++) {
             int index = random.nextInt(chars.length());
             randomString.append(chars.charAt(index));
         }
@@ -480,21 +518,21 @@ public class NewJFrame extends javax.swing.JFrame {
         // Input strings
         String plainText = readFile(encryptPath);
 
-        // Key (must be 16 bytes long)
+        // Key
         String key = inputEncryptPass.getText();
 
         if (validator(encryptPath, "Vui lòng chọn file cần được mã hóa!!")
                 && validator(encryptPathSave, "Vui lòng chọn đường dẫn file lưu dữ liệu mã hóa!!")
                 && validator(key, "Vui lòng nhập key mã hóa!!")
-                && validatorInputLength(key, 16, "Vui lòng nhập đủ 16 ký tự!")) {
+                && validatorInputLength(key, keyLength, "Vui lòng nhập đủ ký tự!!")) {
             // Encrypt the first string
             long startTime = System.nanoTime();
-            byte[] cipherText = AES.encrypt(plainText, key);
+            byte[] cipherText = AES.Encrypt(plainText, key, keyRound);
             long endTime = System.nanoTime();
-            double timeHandle = (endTime - startTime) / 1e9; // Chuyển đổi sang giây
+            double timeHandle = (endTime - startTime) * 1000 / 1e9; // Chuyển đổi sang m giây
             dataFile.setText(plainText);
             resultText.setText(byteArrayToHexString(cipherText));
-            timeEncrypt.setText(timeHandle + " s");
+            timeEncrypt.setText(timeHandle + " ms");
 
             //Ghi file
             writeFile(byteArrayToHexString(cipherText), encryptPathSave);
@@ -518,26 +556,51 @@ public class NewJFrame extends javax.swing.JFrame {
 
         //Convert data trong file cần giải mã sang dạng byte
         byte[] cipherText = hexStringToByteArray(content);
-        // Key (must be 16 bytes long)
+        
+        // Key
         String key = inputDecryptPass.getText();
 
         if (validator(decriptPath, "Vui lòng chọn file cần được giải mã!!")
                 && validator(decriptPathSave, "Vui lòng chọn đường dẫn file lưu dữ liệu được giải mã!!")
                 && validator(key, "Vui lòng nhập key giải mã!!")
-                && validatorInputLength(key, 16, "Vui lòng nhập đủ 16 ký tự!")) {
+                && validatorInputLength(key, keyLength, "Vui lòng nhập đủ ký tự!!")) {
             // Encrypt the first string
             long startTime = System.nanoTime();
-            String decryptedText = AES.decrypt(cipherText, key);
+            String decryptedText = AES.Decrypt(cipherText, key, keyRound);
             long endTime = System.nanoTime();
-            double timeHandle = (endTime - startTime) / 1e9; // Chuyển đổi sang giây
+            double timeHandle = (endTime - startTime) * 1000 / 1e9; // Chuyển đổi sang m giây
             dataFile.setText(content);
             resultText.setText(decryptedText);
-            timeDecrypt.setText(timeHandle + " s");
+            timeDecrypt.setText(timeHandle + " ms");
 
             //Ghi file
             writeFile(decryptedText, decriptPathSave);
         }
     }//GEN-LAST:event_decryptBtnActionPerformed
+
+    private void keySizeOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keySizeOptionActionPerformed
+        // TODO add your handling code here:
+        int keySize = Integer.parseInt((String) keySizeOption.getSelectedItem());
+        switch (keySize) {
+            case 128:
+                keyRound = 10;
+                labelEncryptPassword.setText("Nhập mật khẩu để mã hóa (16 ký tự)");
+                labelDecryptPassword.setText("Cung cấp mật khẩu để giải mã (16 ký tự)");
+                break;
+            case 192:
+                keyRound = 12;
+                labelEncryptPassword.setText("Nhập mật khẩu để mã hóa (24 ký tự)");
+                labelDecryptPassword.setText("Cung cấp mật khẩu để giải mã (24 ký tự)");
+                break;
+            case 256:
+                keyRound = 14;
+                labelEncryptPassword.setText("Nhập mật khẩu để mã hóa (32 ký tự)");
+                labelDecryptPassword.setText("Cung cấp mật khẩu để giải mã (32 ký tự)");
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }//GEN-LAST:event_keySizeOptionActionPerformed
 
     private boolean validator(String input, String message) {
         if (!input.equals("")) {
@@ -657,10 +720,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
@@ -669,6 +730,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> keySizeOption;
+    private javax.swing.JLabel labelDecryptPassword;
+    private javax.swing.JLabel labelEncryptPassword;
     private javax.swing.JButton randomKeyBtn;
     private javax.swing.JTextArea resultText;
     private javax.swing.JTextField timeDecrypt;
