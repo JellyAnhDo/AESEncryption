@@ -528,7 +528,7 @@ public class NewJFrame extends javax.swing.JFrame {
             long startTime = System.nanoTime();
             byte[] cipherText = AES.Encrypt(plainText, key, keyRound);
             long endTime = System.nanoTime();
-            double timeHandle = (endTime - startTime) * 1000 / 1e9; // Chuyển đổi sang m giây
+            double timeHandle = (endTime - startTime) * 1000 / 1e9; // Chuyển đổi sang ms
             dataFile.setText(plainText);
             resultText.setText(byteArrayToHexString(cipherText));
             timeEncrypt.setText(timeHandle + " ms");
@@ -567,7 +567,7 @@ public class NewJFrame extends javax.swing.JFrame {
             long startTime = System.nanoTime();
             String decryptedText = AES.Decrypt(cipherText, key, keyRound);
             long endTime = System.nanoTime();
-            double timeHandle = (endTime - startTime) * 1000 / 1e9; // Chuyển đổi sang m giây
+            double timeHandle = (endTime - startTime) * 1000 / 1e9; // Chuyển đổi sang ms
             dataFile.setText(content);
             resultText.setText(decryptedText);
             timeDecrypt.setText(timeHandle + " ms");
