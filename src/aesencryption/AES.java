@@ -18,75 +18,91 @@ public class AES {
         byte[] plainBytes = plainText.getBytes(StandardCharsets.UTF_8);
         byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
 
-        byte[][] state = new byte[4][4];
-        for (int i = 0; i < 4; i++) {
-            state[i] = new byte[4];
-        }
+        int numBlocks = (int) Math.ceil((double) plainBytes.length / BlockSize);
+        byte[] cipherBytes = new byte[numBlocks * BlockSize];  // Pre-allocate space for all blocks
 
-        for (int i = 0; i < Math.min(plainBytes.length, BlockSize); i++) {
-            state[i % 4][i / 4] = plainBytes[i];
-        }
+        for (int blockIndex = 0; blockIndex < numBlocks; blockIndex++) {
+            byte[][] state = new byte[4][4];
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    int index = i * 4 + j;
+                    if (blockIndex * BlockSize + index < plainBytes.length) {
+                        state[j][i] = plainBytes[blockIndex * BlockSize + index];
+                    } else {
+                        state[j][i] = 0; // Padding byte
+                    }
+                }
+            }
 
-        byte[][] w = KeyExpansion(keyBytes);
+            byte[][] w = KeyExpansion(keyBytes); // Placeholder for actual implementation
 
-        AddRoundKey(state, w, 0);
+            AddRoundKey(state, w, 0); // Placeholder for actual implementation
 
-        for (int round = 1; round < keyRound; round++) {
+            for (int round = 1; round < keyRound; round++) {
+                SubBytes(state); // Placeholder for actual implementation
+                ShiftRows(state); // Placeholder for actual implementation
+                MixColumns(state); // Placeholder for actual implementation
+                AddRoundKey(state, w, round);
+            }
+
             SubBytes(state);
             ShiftRows(state);
-            MixColumns(state);
-            AddRoundKey(state, w, round);
-        }
+            AddRoundKey(state, w, keyRound);
 
-        SubBytes(state);
-        ShiftRows(state);
-        AddRoundKey(state, w, keyRound);
-
-        byte[] cipherBytes = new byte[BlockSize];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                cipherBytes[i * 4 + j] = state[j][i];
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    cipherBytes[blockIndex * BlockSize + i * 4 + j] = state[j][i];
+                }
             }
         }
-
         return cipherBytes;
     }
 
     public static String Decrypt(byte[] cipherText, String key, int keyRound) {
         byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
 
-        byte[][] state = new byte[4][4];
-        for (int i = 0; i < 4; i++) {
-            state[i] = new byte[4];
-        }
+        int numBlocks = cipherText.length / BlockSize;
+        byte[] decryptedBytes = new byte[numBlocks * BlockSize];
 
-        for (int i = 0; i < Math.min(cipherText.length, BlockSize); i++) {
-            state[i % 4][i / 4] = cipherText[i];
-        }
+        for (int blockIndex = 0; blockIndex < numBlocks; blockIndex++) {
+            byte[][] state = new byte[4][4];
 
-        byte[][] w = KeyExpansion(keyBytes);
+            for (int i = 0; i < BlockSize; i++) {
+                state[i % 4][i / 4] = cipherText[blockIndex * BlockSize + i];
+            }
 
-        AddRoundKey(state, w, keyRound);
+            byte[][] w = KeyExpansion(keyBytes); // You need to implement this method
 
-        for (int round = keyRound - 1; round > 0; round--) {
+            AddRoundKey(state, w, keyRound); // And this one
+
+            for (int round = keyRound - 1; round > 0; round--) {
+                InvShiftRows(state); // And all these
+                InvSubBytes(state);
+                AddRoundKey(state, w, round);
+                InvMixColumns(state);
+            }
+
             InvShiftRows(state);
             InvSubBytes(state);
-            AddRoundKey(state, w, round);
-            InvMixColumns(state);
-        }
+            AddRoundKey(state, w, 0);
 
-        InvShiftRows(state);
-        InvSubBytes(state);
-        AddRoundKey(state, w, 0);
-
-        byte[] plainBytes = new byte[BlockSize];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                plainBytes[i * 4 + j] = state[j][i];
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    decryptedBytes[blockIndex * BlockSize + i * 4 + j] = state[j][i];
+                }
             }
         }
 
-        return new String(plainBytes, StandardCharsets.UTF_8);
+        // Remove padding
+        int paddingLength = decryptedBytes.length;
+        while (paddingLength > 0 && decryptedBytes[paddingLength - 1] == 0) {
+            paddingLength--;
+        }
+
+        byte[] finalDecryptedBytes = new byte[paddingLength];
+        System.arraycopy(decryptedBytes, 0, finalDecryptedBytes, 0, paddingLength);
+
+        return new String(finalDecryptedBytes, StandardCharsets.UTF_8);
     }
 
     private static void SubBytes(byte[][] state) {
@@ -271,23 +287,27 @@ public class AES {
         (byte) 0x17, (byte) 0x2B, (byte) 0x04, (byte) 0x7E, (byte) 0xBA, (byte) 0x77, (byte) 0xD6, (byte) 0x26, (byte) 0xE1, (byte) 0x69, (byte) 0x14, (byte) 0x63, (byte) 0x55, (byte) 0x21, (byte) 0x0C, (byte) 0x7D
     };
 }
+
 //import java.nio.charset.StandardCharsets;
 //import java.util.ArrayList;
 //import java.util.List;
 //
 //public class AES {
+//    private static int keyRound;
 //    private static final int BlockSize = 16;
 //
-//    public static byte[] encrypt(String plainText, String key) {
+//    public static byte[] Encrypt(String plainText, String key, int Round) {
 //        byte[] plainBytes = plainText.getBytes(StandardCharsets.UTF_8);
 //        byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
+//        keyRound = Round;
+//        System.out.println(keyRound);
 //
 //        return encryptFullText(plainBytes, keyBytes);
 //    }
 //
-//    public static String decrypt(byte[] cipherText, String key) {
+//    public static String Decrypt(byte[] cipherText, String key, int Round) {
 //        byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
-//
+//        keyRound = Round;
 //        byte[] decryptedBytes = decryptFullText(cipherText, keyBytes);
 //        return new String(decryptedBytes, StandardCharsets.UTF_8);
 //    }
@@ -323,7 +343,7 @@ public class AES {
 //
 //        addRoundKey(state, w, 0);
 //
-//        for (int round = 1; round < 10; round++) {
+//        for (int round = 1; round < keyRound; round++) {
 //            subBytes(state);
 //            shiftRows(state);
 //            mixColumns(state);
@@ -332,7 +352,7 @@ public class AES {
 //
 //        subBytes(state);
 //        shiftRows(state);
-//        addRoundKey(state, w, 10);
+//        addRoundKey(state, w, keyRound);
 //
 //        byte[] cipherBytes = new byte[BlockSize];
 //        for (int i = 0; i < 4; i++) {
@@ -354,9 +374,9 @@ public class AES {
 //
 //        byte[][] w = keyExpansion(keyBytes);
 //
-//        addRoundKey(state, w, 10);
+//        addRoundKey(state, w, keyRound);
 //
-//        for (int round = 9; round > 0; round--) {
+//        for (int round = keyRound - 1; round > 0; round--) {
 //            invShiftRows(state);
 //            invSubBytes(state);
 //            addRoundKey(state, w, round);
