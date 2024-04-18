@@ -630,7 +630,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 content.append(line).append("\n");
             }
             reader.close();
-            System.out.println("Đã đọc nội dung vào tệp thành công.");
             // Hiển thị nội dung trong TextBox hoặc TextArea
             return content.toString();
 
@@ -643,7 +642,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private void writeFile(String content, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(content);
-            System.out.println("Đã ghi nội dung vào tệp thành công.");
         } catch (IOException e) {
             System.err.println("Đã xảy ra lỗi khi ghi vào tệp: " + e.getMessage());
         }
